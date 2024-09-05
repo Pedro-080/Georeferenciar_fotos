@@ -18,24 +18,25 @@ def tratar_img(input_file):
     width, height = image.size
     crop_box = (0, int(height * 0.8), width, height)  # (left, upper, right, lower)
     cropped_image = crop_image(image, crop_box)
-    # cropped_image.show(title="Imagem Filtrada")
+
 
     # Converter para escala de cinza
     gray_image = cropped_image.convert('L')
-    # gray_image.show(title="Imagem Filtrada")
 
     # Aplicar binarização usando um threshold fixo
-    # binary_image = gray_image.point(lambda x: 0 if x < 128 else 255, '1')
-    binary_image = gray_image.point(lambda x: 0 if x < 240 else 255, '1')
-    # binary_image.show(title="Imagem Filtrada")
-
+    binary_image = gray_image.point(lambda x: 0 if x < 235 else 255, '1')
 
     # Redimensionar a imagem usando Image.LANCZOS
-    resized_image = binary_image.resize((binary_image.width * 5, binary_image.height * 5), Image.LANCZOS)
+    resized_image = binary_image.resize((binary_image.width * 2, binary_image.height * 2), Image.LANCZOS)
 
     # Aplicar filtro de desfoque para suavizar a imagem
     filtered_image = resized_image.filter(ImageFilter.MedianFilter())
-    filtered_image.show(title="Imagem Filtrada")
+    
+    cropped_image.show()
+    gray_image.show()
+    binary_image.show()
+    resized_image.show()
+    filtered_image.show()
 
     text = pytesseract.image_to_string(filtered_image,lang="eng")
 
@@ -50,8 +51,8 @@ def crop_image(image, crop_box):
 
 # image_name = "P001.jpeg"
 # image_name = "P002.jpeg"
-image_name = "P003.jpeg"
-image_name = "P013.jpeg"
+# image_name = "P003.jpeg"
+image_name = "W051.jpeg"
 
 
 input_file = f'fotos/{image_name}'
