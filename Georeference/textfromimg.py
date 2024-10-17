@@ -4,6 +4,7 @@ import pytesseract
 import re
 from pyproj import Proj, transform
 from GPSPhoto import gpsphoto
+import matplotlib.pyplot as plt
 
 # Função para cortar a imagem
 def crop_image(image, crop_box):
@@ -22,7 +23,7 @@ def tratar_img(input_file):
     image = Image.open(input_file)
 
     width, height = image.size
-    crop_box = (0, int(height * 0.7), width, height)  # (left, upper, right, lower)
+    crop_box = (0, int(height * 0.8), width, height)  # (left, upper, right, lower)
     cropped_image = crop_image(image, crop_box)
 
 
@@ -34,7 +35,7 @@ def tratar_img(input_file):
 
 
     # Aplicar binarização usando um threshold fixo
-    binary_image = resized_image.point(lambda x: 0 if x < 240 else 255, '1')
+    binary_image = resized_image.point(lambda x: 0 if x < 235 else 255, '1')
 
     
     # Aplicar filtro de desfoque para suavizar a imagem
@@ -51,14 +52,30 @@ def tratar_img(input_file):
     text = pytesseract.image_to_string(filtered_image,lang="eng")
 
 
-    test_file = "fotos/W039.jpeg"
+    test_file = "fotos/W046.jpeg"
 
     if input_file == test_file:
+        image.show()
+        gray_image.show()
         filtered_image.show()
         # gaussian_image.show()
         print(text)
 
 
+    # Configurar o gráfico com 2 linhas e 2 colunas para exibir 4 imagens
+    fig, axs = plt.subplots(2, 2)
+
+    # Exibir as imagens
+    axs[0, 0].imshow(image)
+    axs[0, 0].axis('off')  # Remover os eixos
+    axs[0, 1].imshow(gray_image)
+    axs[0, 1].axis('off')
+    axs[1, 0].imshow(binary_image)
+    axs[1, 0].axis('off')
+    axs[1, 1].imshow(filtered_image)
+    axs[1, 1].axis('off')
+
+    plt.show()
 
     return text
     ...
@@ -163,7 +180,7 @@ for filename in os.listdir(folder_path):
                 is_ok+=1
                 latitude, longitude = utm_to_geographic(easting, northing, utm_zone, hemisphere)
                 add_gps_to_image(file_path, output_file, latitude, longitude)
-                os.remove(file_path)
+                # os.remove(file_path)
             else:
                 print(f"error in: {filename}")
                 print(extracted_text)
@@ -176,18 +193,6 @@ for filename in os.listdir(folder_path):
         else:
             print(f"extracted: {filename}")
             # print(extracted_text)
-
-        # print(f"easting: {easting}  northing: {northing}")
-
-        # 
-
-
-
-        # print(f"easting: {easting}  northing: {northing}")
-        
-
-
-
 
 
 print("=" * 50)

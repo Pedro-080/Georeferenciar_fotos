@@ -32,10 +32,10 @@ def tratar_img(input_file):
     # Aplicar filtro de desfoque para suavizar a imagem
     filtered_image = resized_image.filter(ImageFilter.MedianFilter())
     
-    cropped_image.show()
-    gray_image.show()
-    binary_image.show()
-    resized_image.show()
+    # cropped_image.show()
+    # gray_image.show()
+    # binary_image.show()
+    # resized_image.show()
     filtered_image.show()
 
     text = pytesseract.image_to_string(filtered_image,lang="eng")
@@ -52,7 +52,7 @@ def crop_image(image, crop_box):
 # image_name = "P001.jpeg"
 # image_name = "P002.jpeg"
 # image_name = "P003.jpeg"
-image_name = "W051.jpeg"
+image_name = "L050.jpeg"
 
 
 input_file = f'fotos/{image_name}'
