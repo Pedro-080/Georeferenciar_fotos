@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import filedialog
+
 from PIL import Image, ImageFilter, ImageOps
 import os
 import pytesseract
@@ -5,6 +8,9 @@ import re
 from pyproj import Proj, transform
 from GPSPhoto import gpsphoto
 import matplotlib.pyplot as plt
+
+
+
 
 # Função para cortar a imagem
 def crop_image(image, crop_box):
@@ -116,8 +122,6 @@ def find_swiss(text):
     match = re.search(r'swiss', text, re.IGNORECASE)
     return match
 
-folder_path = "/Georeference/fotos/"
-output_path = "fotos/editadas/"
 
 pytesseract.pytesseract.tesseract_cmd= r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
@@ -127,10 +131,38 @@ hemisphere = "S"
 is_ok = 0
 total_files = 0
 
-diretorio_atual = os.getcwd()
-print("Diretório atual:", diretorio_atual)
+# diretorio_atual = os.getcwd()
+# print("Diretório atual:", diretorio_atual)
 
-folder_path = diretorio_atual+folder_path
+# folder_path = diretorio_atual+folder_path
+
+
+
+# Criar a janela principal (oculta)
+root = tk.Tk()
+root.withdraw()
+
+# Abrir o seletor de diretório
+folder_path = filedialog.askdirectory(title="Selecione uma pasta")
+output_path = "/editadas/"
+# # Verificar se o usuário selecionou um diretório
+# if folder_path:
+#     print(f"Pasta selecionada: {folder_path}")
+# else:
+#     print("Nenhuma pasta selecionada.")
+
+
+# for filename in os.listdir(folder_path):
+#     if filename.endswith(".jpeg"):
+#         file_path = os.path.join(folder_path,filename)
+#         print("-" * 50)
+#         print(filename)
+
+#         print(folder_path + output_path )
+
+#         extracted_text = tratar_img(file_path)
+
+
 
 for filename in os.listdir(folder_path):
     if filename.endswith(".jpeg"):
@@ -138,11 +170,15 @@ for filename in os.listdir(folder_path):
         print("-" * 50)
         print(filename)
         file_path = os.path.join(folder_path,filename)
-        output_file = output_path+filename
+        # output_file = folder_path + output_path + filename
+        output_file = os.path.join(folder_path,output_path,filename)
 
-        
+        print(f"file_path: {file_path}")
+        print(f"output_file: {output_file}")
+
+
         parent_directory = os.path.dirname(folder_path)
-        print(f"parent_directory: {parent_directory}")
+        # print(f"parent_directory: {parent_directory}")
 
         extracted_text = tratar_img(file_path)
         # print(extracted_text)
@@ -192,7 +228,7 @@ for filename in os.listdir(folder_path):
                 print(f"output_path: {output_path}")
                 # print(f"latitude: {latitude}")
                 # print(f"longitude: {longitude}")
-                add_gps_to_image(file_path, output_file, latitude, longitude)
+                add_gps_to_image(file_path, file_path, latitude, longitude)
                 # os.remove(file_path)
             else:
                 print(f"error in: {filename}")

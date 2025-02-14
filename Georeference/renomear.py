@@ -1,13 +1,14 @@
 import os
 
+
 # Defina o diretório onde estão os arquivos
-diretorio = "fotos/"
-diretorio_novo = "fotos/editadas/"
+diretorio = "Georeference/fotos/"
+diretorio_novo = "Georeference/fotos/editadas/"
 # folder_path = "fotos/"
 # output_path = "fotos/editadas/"
 
 # Defina o novo nome base
-novo_nome_base = 'BM04 - SDP-02.'
+novo_nome_base = 'BM06 - SDP-03.'
 
 # Listar todos os arquivos no diretório
 arquivos = os.listdir(diretorio)
@@ -28,7 +29,7 @@ for i, nome_arquivo in enumerate(arquivos, start=1):
     # novo_nome = f"{novo_nome_base}{numero_formatado}{extensao}"
     
     # Substituir "BM - 04" por "BM-06" no nome do arquivo
-    novo_nome = nome_arquivo.replace("BM04", "BM06")
+    novo_nome = nome_arquivo.replace("BM06", "BM07")
 
 
 
@@ -41,3 +42,4 @@ for i, nome_arquivo in enumerate(arquivos, start=1):
     os.rename(caminho_antigo, caminho_novo)
 
 print("Arquivos renomeados com sucesso!")
+

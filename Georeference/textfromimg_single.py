@@ -52,7 +52,7 @@ def crop_image(image, crop_box):
 # image_name = "P001.jpeg"
 # image_name = "P002.jpeg"
 # image_name = "P003.jpeg"
-image_name = "L050.jpeg"
+image_name = "Energisa 9268"
 
 
 input_file = f'fotos/{image_name}'
